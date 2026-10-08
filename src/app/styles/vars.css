@@ -1,0 +1,13 @@
+@theme {
+   --color-background: #262948;
+   --color-sidebar: #17181c;
+   --color-sidebar-light: #32343d;
+   --color-input: #2b2c30;
+
+   --color-primary: #ffffff;
+   --color-secondary: #949596;
+   --color-accent: #007aff;
+   --color-accent-light: #479fff;
+
+   --font-display: "Inter", sans-serif;
+}

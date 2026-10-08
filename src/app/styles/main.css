@@ -1,0 +1,10 @@
+@import "./fonts.css";
+@import "./vars.css";
+
+@import "tailwindcss";
+
+body {
+   background-color: var(--color-background);
+   color: var(--color-primary);
+   font-family: var(--font-display);
+}
