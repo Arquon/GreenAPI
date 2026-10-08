@@ -1,5 +1,5 @@
 import { useAppStore } from "@/app/store/store";
-import { apiKeysSelectors } from "./selectors";
+import { apiKeysSelectors } from "../selectors";
 
 export function useApiKeys() {
    const apiKeys = useAppStore((store) => apiKeysSelectors.apiKeys(store.apiKeys));

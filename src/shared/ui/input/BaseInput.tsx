@@ -14,10 +14,10 @@ export const BaseInput = ({ onChange: onChangeProps, ...restProps }: BaseInputPr
       onChangeProps(event.target.value);
    };
 
-   const classname = "bg-input w-full h-full py-1 px-2 placeholder:text-secondary";
+   const classname = "w-full h-full py-1 px-2 placeholder:text-secondary outline-none";
 
    return (
-      <div className="rounded-lg overflow-hidden">
+      <div className="rounded-lg bg-input">
          <input {...restProps} onChange={onChange} type="text" className={classname} />
       </div>
    );

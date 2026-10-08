@@ -1,4 +1,4 @@
-import { useChatMessagesQuery } from "@/entities/message/model/useChatMessagesQuery";
+import { useChatMessagesQuery } from "@/entities/message/model/hooks/useChatMessagesQuery";
 import { MessageItem } from "@/entities/message/ui/MessageItem";
 import { Loader } from "@/shared/ui/loader/Loader";
 
@@ -14,8 +14,8 @@ export const ChatMessagesList = ({ chatId }: ChatMessagesListProps) => {
    if (isPending) return <Loader />;
 
    return (
-      <div className="grow">
-         <div className="h-full flex flex-col-reverse gap-3">
+      <div className="grow overflow-y-auto py-5">
+         <div className="flex min-h-full flex-col-reverse max-w-180 mx-auto gap-2">
             {messages.map((message) => (
                <MessageItem key={message.idMessage} message={message} />
             ))}

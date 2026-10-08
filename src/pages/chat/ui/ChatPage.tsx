@@ -1,4 +1,5 @@
 import { ChatHeader, ChatMessagesList, ChatMessageBox } from "@/entities/chat";
+import { useChatMessagesQuery } from "@/entities/message/model/hooks/useChatMessagesQuery";
 import { appRoutes } from "@/shared/config";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -8,11 +9,16 @@ interface ChatComponentProps {
 }
 
 export const ChatComponent = ({ chatId }: ChatComponentProps) => {
+   // TODO
+   // const { isPending, isSuccess } = useCurrentChatQuery({ chatId });
+
+   useChatMessagesQuery({ chatId });
+
    return (
       <div className="grow flex flex-col">
          <ChatHeader chatId={chatId} />
          <ChatMessagesList chatId={chatId} />
-         <ChatMessageBox />
+         <ChatMessageBox chatId={chatId} />
       </div>
    );
 };

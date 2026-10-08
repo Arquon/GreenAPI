@@ -5,5 +5,17 @@ interface MessageItemProps {
 }
 
 export const MessageItem = ({ message }: MessageItemProps) => {
-   return <div>{message.textMessage}</div>;
+   const defaultClassName = "max-w-100 px-4 py-2 rounded-xl";
+   const incomingClassName = "bg-message-inc self-start";
+   const outgoingClassName = "bg-message-out self-end";
+
+   const className = [
+      defaultClassName,
+      message.type === "incoming" && incomingClassName,
+      message.type === "outgoing" && outgoingClassName,
+   ]
+      .filter(Boolean)
+      .join(" ");
+
+   return <div className={className}>{message.textMessage}</div>;
 };

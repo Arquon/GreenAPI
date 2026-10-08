@@ -11,6 +11,6 @@ export function useChatAvatarQuery({ chatId }: useChatAvatarQueryQueryParams) {
 
    return useQuery({
       queryKey: ["chats", chatId, "avatar"],
-      queryFn: () => chatService.getChatAvatar({ chatId, ...apiKeys }),
+      queryFn: () => chatService.getChatAvatarUrl({ chatId, ...apiKeys }),
    });
 }

@@ -29,8 +29,8 @@ export const apiKeysSlice =
    <S extends ApiKeysStore>(): StateCreator<S, AppMiddlewares, [], ApiKeysSlice> =>
    (set) => ({
       state: {
-         apiTokenInstance: "42ac6e3524f844ce912be5346208bf594a748a705d43478fae",
-         idInstance: "410022757998",
+         apiTokenInstance: null,
+         idInstance: null,
       },
       setApiKeys: (apiKeys) =>
          set((store) => {

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { messagesService } from "../api/messages.service";
+import { messagesService } from "../../api/messages.service";
 import { useApiKeys } from "@/shared/model/apiKeys";
+import axios from "axios";
 
 interface useChatMessagesQueryQueryParams {
    chatId: string;
@@ -13,5 +14,13 @@ export function useChatMessagesQuery({ chatId, count = 100 }: useChatMessagesQue
    return useQuery({
       queryKey: ["chats", chatId, "messages", count],
       queryFn: () => messagesService.getChatMessages({ chatId, count, idInstance, apiTokenInstance }),
+      retry: Infinity,
+      retryDelay(failureCount, error) {
+         if (axios.isAxiosError(error)) {
+            if (error.status === 429) return 1500;
+         }
+
+         return Math.min(1000 * 2 ** failureCount, 30000);
+      },
    });
 }

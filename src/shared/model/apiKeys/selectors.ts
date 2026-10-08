@@ -8,4 +8,5 @@ export const apiKeysSelectors = {
          resultEqualityCheck: shallow,
       },
    }),
+   apiKeysProvided: (slice: ApiKeysSlice) => !!(slice.state.apiTokenInstance && slice.state.idInstance),
 };

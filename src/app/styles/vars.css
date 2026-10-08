@@ -3,11 +3,18 @@
    --color-sidebar: #17181c;
    --color-sidebar-light: #32343d;
    --color-input: #2b2c30;
+   --color-message-inc: #393c55;
+   --color-message-out: #2b7fff;
+   --color-modal: #0a0a0f;
+
+   --color-divider: #242529;
 
    --color-primary: #ffffff;
    --color-secondary: #949596;
    --color-accent: #007aff;
    --color-accent-light: #479fff;
+   --color-disabled: #2b2d3a;
+   --color-error: #d4183d;
 
    --font-display: "Inter", sans-serif;
 }

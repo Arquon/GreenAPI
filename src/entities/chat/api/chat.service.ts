@@ -1,22 +1,27 @@
 import { httpService, type DefaultRequestParams } from "@/shared/api";
 import type { Chat } from "../model/types";
 
+const endPoints = {
+   getChatsList: ({ apiTokenInstance, idInstance }: DefaultRequestParams) =>
+      `/waInstance${idInstance}/getChats/${apiTokenInstance}`,
+   getChatAvatarUrl: ({ apiTokenInstance, idInstance }: DefaultRequestParams) =>
+      `/waIntance${idInstance}/getAvatar/${apiTokenInstance}`,
+   checkChatByPhone: ({ apiTokenInstance, idInstance }: DefaultRequestParams) =>
+      `/waInstance${idInstance}/checkAccount/${apiTokenInstance}`,
+};
+
 interface GetChatsListParams extends DefaultRequestParams {}
 interface GetChatAvatarParams extends DefaultRequestParams {
    chatId: string;
 }
-
-interface ChatEndpoints {
-   getChatsList: (args: DefaultRequestParams) => string;
-   getChatAvatarUrl: (args: DefaultRequestParams) => string;
+interface CheckChatByPhoneParams extends DefaultRequestParams {
+   phoneNumber: number;
 }
 
-const endPoints: ChatEndpoints = {
-   getChatsList: ({ apiTokenInstance, idInstance }) =>
-      `/waInstance${idInstance}/getChats/${apiTokenInstance}`,
-   getChatAvatarUrl: ({ apiTokenInstance, idInstance }) =>
-      `/waInstance${idInstance}/getAvatar/${apiTokenInstance}`,
-};
+interface CheckChatByPhoneResponse {
+   exist: boolean;
+   chatId: string;
+}
 
 export const chatService = {
    getChatsList: async ({ apiTokenInstance, idInstance }: GetChatsListParams) => {
@@ -26,11 +31,26 @@ export const chatService = {
 
       return response.data;
    },
-   getChatAvatar: async ({ apiTokenInstance, idInstance, chatId }: GetChatAvatarParams) => {
+   getChatAvatarUrl: async ({ apiTokenInstance, idInstance, chatId }: GetChatAvatarParams) => {
+      // TO DO
+
+      return { urlAvatar: undefined };
+
       const response = await httpService.post<{ urlAvatar: string }>(
          endPoints.getChatAvatarUrl({ apiTokenInstance, idInstance }),
          {
             chatId,
+         }
+      );
+
+      return response.data;
+   },
+   checkChatByPhone: async ({ apiTokenInstance, idInstance, phoneNumber }: CheckChatByPhoneParams) => {
+      const response = await httpService.post<CheckChatByPhoneResponse>(
+         endPoints.checkChatByPhone({ apiTokenInstance, idInstance }),
+         {
+            phoneNumber,
+            force: true,
          }
       );
 

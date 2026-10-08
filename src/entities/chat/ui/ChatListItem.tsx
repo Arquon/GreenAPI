@@ -40,6 +40,8 @@ export const ChatListItem = ({ name, chatId }: ChatListItemProps) => {
       .filter(Boolean)
       .join(" ");
 
+   const lastMessage = isSuccess ? lastMessageArray[0] : undefined;
+
    return (
       <button className={className} onClick={setCurrentChat}>
          <Avatar name={name} url={avatarData?.urlAvatar} />
@@ -47,9 +49,9 @@ export const ChatListItem = ({ name, chatId }: ChatListItemProps) => {
             <span className="text-xs">{name}</span>
             {isPending && <Loader />}
             {isError && <p>Произошла ошибка при загрузке сообщения {error.message}</p>}
-            {isSuccess && (
+            {lastMessage && (
                <p className=" text-sm text-secondary line-clamp-2 overflow-hidden">
-                  {lastMessageArray[0].textMessage}
+                  {lastMessage.textMessage}
                </p>
             )}
          </div>
