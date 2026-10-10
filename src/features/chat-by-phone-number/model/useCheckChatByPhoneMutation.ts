@@ -1,4 +1,4 @@
-import { chatService } from "@/entities/chat/api/chat.service";
+import { chatService } from "@/entities/chat";
 import { useApiKeys } from "@/shared/model/apiKeys";
 import { useMutation } from "@tanstack/react-query";
 

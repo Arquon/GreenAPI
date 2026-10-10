@@ -11,6 +11,10 @@ interface GetContactInfoParams extends DefaultRequestParams {
 
 export const contactService = {
    getContactInfo: async ({ apiTokenInstance, idInstance, chatId }: GetContactInfoParams) => {
+      return { name: "Test" };
+
+      // TO DO типиировать response
+
       const response = await httpService.post(
          endPoints.getChatContactInfo({ apiTokenInstance, idInstance }),
          {

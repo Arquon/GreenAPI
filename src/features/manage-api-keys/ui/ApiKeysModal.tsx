@@ -19,8 +19,6 @@ export const ApiKeysModal = ({ closeFn }: ApiKeysModalProps) => {
    const [saveKeys, setSaveKeys] = useState(false);
    const toggleSaveCheckBox = () => setSaveKeys((prev) => !prev);
 
-   const onChange = () => {};
-
    const onSubmit = (event: SubmitEvent<HTMLFormElement>) => {
       event.preventDefault();
 
@@ -41,7 +39,7 @@ export const ApiKeysModal = ({ closeFn }: ApiKeysModalProps) => {
       closeFn();
    };
 
-   // TO DO
+   // TO DO create InputWithError
 
    return (
       <Modal.Provider closeFn={closeFn}>

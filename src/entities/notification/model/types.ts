@@ -1,4 +1,4 @@
-// TO DO - notification type
+import type { ChatType } from "@/entities/chat/@x/notification";
 
 interface SenderData {
    chatId: string;
@@ -7,6 +7,7 @@ interface SenderData {
    senderName: string;
    senderContactName: string;
    senderPhoneNumber: number;
+   senderType: ChatType;
 }
 
 interface BaseMessageData {
@@ -28,11 +29,12 @@ export interface Notification {
    messageData: MessageData;
 }
 
-type TypeWebhook = "incomingMessageReceived";
+type TypeWebhook = "incomingMessageReceived" | "outgoingAPIMessageReceived";
 type TypeInstance = "telegram";
 
-export interface MessageDTO extends Notification {
+export interface NotificationDTO extends Notification {
    typeWebhook: TypeWebhook;
+   idMessage: string;
    instanceData: {
       idInstance: number;
       wid: string;

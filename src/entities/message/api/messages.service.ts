@@ -8,7 +8,7 @@ const messagesEndPoints = {
       `/waInstance${idInstance}/sendMessage/${apiTokenInstance}`,
 };
 
-interface GetChatMessagesParams extends DefaultRequestParams {
+export interface GetChatMessagesParams extends DefaultRequestParams {
    chatId: string;
    count?: number;
 }
@@ -28,6 +28,8 @@ export const messagesService = {
       return response.data;
    },
    sendChatMessage: async ({ apiTokenInstance, idInstance, chatId, message }: SendChatMessageParams) => {
+      console.log("sendChatMessage");
+
       const response = await httpService.post<{ idMessage: string }>(
          messagesEndPoints.sendChatMessage({ apiTokenInstance, idInstance }),
          {

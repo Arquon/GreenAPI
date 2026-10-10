@@ -1,24 +1,31 @@
 import { ChatHeader, ChatMessagesList, ChatMessageBox } from "@/entities/chat";
-import { useChatMessagesQuery } from "@/entities/message/model/hooks/useChatMessagesQuery";
+import { ApiKeysRequired } from "@/features/manage-api-keys";
 import { appRoutes } from "@/shared/config";
-import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router";
+import { Loader } from "@/shared/ui";
+import { Suspense, useEffect } from "react";
+import { Navigate, useNavigate, useParams } from "react-router";
 
 interface ChatComponentProps {
    chatId: string;
 }
 
 export const ChatComponent = ({ chatId }: ChatComponentProps) => {
-   // TODO
+   // TODO useSuspenseQuery
    // const { isPending, isSuccess } = useCurrentChatQuery({ chatId });
 
-   useChatMessagesQuery({ chatId });
-
    return (
-      <div className="grow flex flex-col">
-         <ChatHeader chatId={chatId} />
-         <ChatMessagesList chatId={chatId} />
-         <ChatMessageBox chatId={chatId} />
+      <div className="grow flex flex-col relative">
+         <Suspense
+            fallback={
+               <div className="flex h-full justify-center items-center">
+                  <Loader size="large" />
+               </div>
+            }
+         >
+            <ChatHeader chatId={chatId} />
+            <ChatMessagesList chatId={chatId} />
+            <ChatMessageBox chatId={chatId} />
+         </Suspense>
       </div>
    );
 };
@@ -39,5 +46,9 @@ export const ChatPage = ({}: ChatPageProps) => {
 
    if (!chatId) return null;
 
-   return <ChatComponent chatId={chatId} />;
+   return (
+      <ApiKeysRequired fallBack={<Navigate to={appRoutes.mainPage} />}>
+         <ChatComponent chatId={chatId} />
+      </ApiKeysRequired>
+   );
 };

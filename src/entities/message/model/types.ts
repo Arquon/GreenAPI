@@ -18,18 +18,28 @@ interface BaseMessage {
 
 type OutgoingMessageStatus = "delivered" | "read";
 
-interface OutgoingMessage extends BaseMessage {
+export interface OutgoingLoadingMessage extends BaseMessage {
+   type: "outgoing";
+   statusMessage: "loading";
+}
+
+export interface OutgoingMessage extends BaseMessage {
    type: "outgoing";
    statusMessage: OutgoingMessageStatus;
 }
 
 type SenderType = "user" | "group" | "supergroup" | "channel" | "bot";
 
-interface IncomingMessage extends BaseMessage {
+export interface IncomingMessage extends BaseMessage {
    type: "incoming";
    senderName: string;
    senderType: SenderType;
    senderContactName: string;
 }
 
-export type Message = OutgoingMessage | IncomingMessage;
+export type Message = OutgoingMessage | OutgoingLoadingMessage | IncomingMessage;
+
+export interface MessagesQueryPage {
+   messages: Message[];
+   nextCount: number | null;
+}

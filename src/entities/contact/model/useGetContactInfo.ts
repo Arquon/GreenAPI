@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { contactService } from "../api/contact.service";
 import { useApiKeys } from "@/shared/model/apiKeys";
 
@@ -9,7 +9,7 @@ interface useContactInfoQueryParams {
 export function useContactInfoQuery({ chatId }: useContactInfoQueryParams) {
    const { apiTokenInstance, idInstance } = useApiKeys();
 
-   return useQuery({
+   return useSuspenseQuery({
       queryKey: ["user", chatId],
       queryFn: () => contactService.getContactInfo({ chatId, idInstance, apiTokenInstance }),
    });

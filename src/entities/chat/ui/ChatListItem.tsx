@@ -1,7 +1,7 @@
 import { useChatMessagesQuery } from "@/entities/message/@x/chat";
 import { appRoutes } from "@/shared/config";
-import { Avatar } from "@/shared/ui/avatar/Avatar";
-import { Loader } from "@/shared/ui/loader/Loader";
+import { Avatar } from "@/shared/ui";
+import { Loader } from "@/shared/ui";
 import { generatePath, useNavigate, useParams } from "react-router";
 import { useChatAvatarQuery } from "../model/hooks/useChatAvatarQuery";
 
@@ -47,7 +47,7 @@ export const ChatListItem = ({ name, chatId }: ChatListItemProps) => {
          <Avatar name={name} url={avatarData?.urlAvatar} />
          <div className="flex flex-col gap-1">
             <span className="text-xs">{name}</span>
-            {isPending && <Loader />}
+            {isPending && <Loader size="small" />}
             {isError && <p>Произошла ошибка при загрузке сообщения {error.message}</p>}
             {lastMessage && (
                <p className=" text-sm text-secondary line-clamp-2 overflow-hidden">

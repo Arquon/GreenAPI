@@ -12,6 +12,8 @@ export const ApiKeysRequired = ({ children, fallBack }: ApiKeysRequiredProps) =>
 
    if (!apiKeysProvided) {
       if (fallBack) return fallBack;
+
+      return null;
    }
 
    return children;

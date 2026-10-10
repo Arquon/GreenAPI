@@ -1,13 +1,35 @@
-interface LoaderProps {}
+import { cva, type VariantProps } from "class-variance-authority";
 
-export const Loader = ({}: LoaderProps) => {
+interface LoaderOwnProps {}
+
+const loaderStyle = cva("animate-spin text-accent", {
+   variants: {
+      size: {
+         small: "h-5 w-5",
+         large: "h-30 w-30",
+         medium: "h-15 w-15",
+      },
+   },
+});
+
+type LoaderProps = LoaderOwnProps & Required<VariantProps<typeof loaderStyle>>;
+
+export const Loader = ({ size }: LoaderProps) => {
    const className = "flex justify-center";
+   const svgClassName = loaderStyle({ size });
 
    return (
       <div className={className}>
          <div className="flex items-center justify-center">
-            <svg className="h-15 w-15 animate-spin text-accent" xmlns="http://w3.org" fill="none" viewBox="0 0 24 24">
-               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <svg className={svgClassName} xmlns="http://w3.org" fill="none" viewBox="0 0 24 24">
+               <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+               ></circle>
                <path
                   className="opacity-75"
                   fill="currentColor"
