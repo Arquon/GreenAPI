@@ -28,8 +28,6 @@ export const messagesService = {
       return response.data;
    },
    sendChatMessage: async ({ apiTokenInstance, idInstance, chatId, message }: SendChatMessageParams) => {
-      console.log("sendChatMessage");
-
       const response = await httpService.post<{ idMessage: string }>(
          messagesEndPoints.sendChatMessage({ apiTokenInstance, idInstance }),
          {

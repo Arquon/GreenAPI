@@ -1,7 +1,7 @@
 import type { Message } from "@/entities/message/@x/chat";
 import { useIntersectionObserver } from "@/shared/lib";
 import type { UseInfiniteQueryResult } from "@tanstack/react-query";
-import { useRef, useLayoutEffect, useEffect, useEffectEvent } from "react";
+import { useRef, useLayoutEffect, useEffect } from "react";
 
 interface useInfiniteChatMessagesQueryParams {
    chatId: string;
@@ -11,6 +11,7 @@ interface useInfiniteChatMessagesQueryParams {
 interface PreviousScrollValues {
    scrollTop: number;
    scrollHeight: number;
+   clientHeight: number;
 }
 
 export function useChatMessages({ chatId, query }: useInfiniteChatMessagesQueryParams) {
@@ -29,8 +30,6 @@ export function useChatMessages({ chatId, query }: useInfiniteChatMessagesQueryP
       rootMargin: "500px 0px 0px 0px",
    });
 
-   const stableObserveTarget = useEffectEvent(observeTarget);
-
    const {
       elementRef: scrollWrapperRef,
       isElementMounted: isScrollWrapperMounted,
@@ -41,14 +40,24 @@ export function useChatMessages({ chatId, query }: useInfiniteChatMessagesQueryP
       isElementMounted: isContainerMounted,
       setElementRef: setContainerRef,
    } = container;
-   const { setElementRef: setTargetRef, isElementMounted: isTargetMounted } = target;
+   const { setElementRef: setTargetRef } = target;
 
-   // Обновление обсервера после получения данных
+   const scrollToBottom = () => {
+      const wrapper = scrollWrapperRef.current;
+
+      wrapper?.scrollTo({ top: wrapper?.scrollHeight });
+   };
+
+   // Обновление наблюдателя после получения данных
    useEffect(() => {
       if (!isFetchingNextPage && hasNextPage) {
-         stableObserveTarget();
+         observeTarget();
       }
-   }, [isFetchingNextPage, hasNextPage, isTargetMounted]);
+   }, [isFetchingNextPage, hasNextPage, observeTarget]);
+
+   useLayoutEffect(() => {
+      prevScrollValues.current = null;
+   }, [chatId]);
 
    // Сохранение позиции скролла перед добавлением
    useLayoutEffect(() => {
@@ -59,6 +68,7 @@ export function useChatMessages({ chatId, query }: useInfiniteChatMessagesQueryP
          prevScrollValues.current = {
             scrollHeight: wrapper.scrollHeight,
             scrollTop: wrapper.scrollTop,
+            clientHeight: wrapper.clientHeight,
          };
       };
       handleScroll();
@@ -71,15 +81,31 @@ export function useChatMessages({ chatId, query }: useInfiniteChatMessagesQueryP
    useLayoutEffect(() => {
       if (!containerRef.current) return;
       const container = containerRef.current;
-      const wrapper = scrollWrapperRef.current;
 
-      const observer = new MutationObserver(() => {
+      const observer = new MutationObserver((mutations) => {
+         const hasAdditions = mutations.some((m) => m.addedNodes.length > 0);
+         if (!hasAdditions) return;
+
+         const wrapper = scrollWrapperRef.current;
          if (!prevScrollValues.current || !wrapper) return;
 
-         const { scrollHeight: prevScrollHeight, scrollTop: prevScrollTop } = prevScrollValues.current;
-         const delta = prevScrollHeight - prevScrollTop;
+         const {
+            scrollHeight: prevScrollHeight,
+            scrollTop: prevScrollTop,
+            clientHeight: prevClientHeight,
+         } = prevScrollValues.current;
          const { scrollHeight } = wrapper;
-         wrapper.scrollTo({ top: scrollHeight - delta });
+
+         const wasAtTop = prevScrollTop < 10;
+
+         if (wasAtTop) {
+            wrapper.scrollTo({ top: scrollHeight - prevScrollHeight + prevScrollTop });
+            return;
+         }
+
+         const wasAtBottom = Math.abs(prevScrollHeight - prevScrollTop - prevClientHeight) < 10;
+
+         if (wasAtBottom) wrapper.scrollTo({ top: scrollHeight });
       });
 
       observer.observe(container, { childList: true, subtree: false });
@@ -87,7 +113,7 @@ export function useChatMessages({ chatId, query }: useInfiniteChatMessagesQueryP
       return () => observer.disconnect();
    }, [isContainerMounted, containerRef, scrollWrapperRef]);
 
-   // Скролл в самый низ про загрузке чата
+   // Скролл в самый низ при загрузке чата
    useLayoutEffect(() => {
       if (!scrollWrapperRef.current) return;
 
@@ -96,5 +122,5 @@ export function useChatMessages({ chatId, query }: useInfiniteChatMessagesQueryP
       });
    }, [chatId, isScrollWrapperMounted, scrollWrapperRef]);
 
-   return { setTargetRef, setScrollWrapperRef, setContainerRef };
+   return { setTargetRef, setScrollWrapperRef, setContainerRef, scrollToBottom };
 }

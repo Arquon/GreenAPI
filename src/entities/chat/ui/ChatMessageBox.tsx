@@ -4,16 +4,18 @@ import { BaseTextarea, Button } from "@/shared/ui";
 import { useState } from "react";
 
 interface ChatMessageBoxProps {
+   scrollToBottom: () => void;
    chatId: string;
 }
 
-export const ChatMessageBox = ({ chatId }: ChatMessageBoxProps) => {
+export const ChatMessageBox = ({ chatId, scrollToBottom }: ChatMessageBoxProps) => {
    const [message, setMessage] = useState("");
 
    const { mutate: sendChatMessage } = useSendMessageMutation();
 
    const onSendMessage = () => {
       sendChatMessage({ chatId, message });
+      scrollToBottom();
       setMessage("");
    };
 

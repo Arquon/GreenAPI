@@ -7,7 +7,7 @@ export function useNotification() {
    const apiKeys = useApiKeys();
    const queryClient = useQueryClient();
 
-   const { error } = useQuery({
+   useQuery({
       queryKey: ["notification"],
       queryFn: async () => {
          const notificationResponse = await notificationService.receiveNotification({ ...apiKeys });
@@ -30,6 +30,4 @@ export function useNotification() {
       gcTime: 0,
       refetchInterval: 1000,
    });
-
-   console.log({ error });
 }

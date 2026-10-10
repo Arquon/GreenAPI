@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useRefWithMountedFlag } from "./useRefWithMountedFlag";
 
 interface useIntersectionObserverQueryParams extends Omit<IntersectionObserverInit, "root"> {
@@ -17,7 +17,10 @@ export function useIntersectionObserver({
    const scrollWrapper = useRefWithMountedFlag();
    const { isElementMounted: isScrollWrapperMounted, elementRef: scrollWrapperRef } = scrollWrapper;
 
-   const optionsRef = useRef({ rootMargin, scrollMargin, threshold });
+   const options = useMemo(
+      () => ({ rootMargin, scrollMargin, threshold }),
+      [rootMargin, scrollMargin, threshold]
+   );
    const observerRef = useRef<IntersectionObserver>(null);
 
    const cbRef = useRef(cb);
@@ -40,20 +43,21 @@ export function useIntersectionObserver({
                cbRef.current();
             }
          },
-         { ...optionsRef.current, root: scrollWrapperRef.current }
+         { ...options, root: scrollWrapperRef.current }
       );
 
       observerRef.current = observer;
 
-      return () => observerRef.current?.disconnect();
-   }, [isTargetMounted, targetRef, isScrollWrapperMounted, scrollWrapperRef]);
+      return () => observer.disconnect();
+   }, [isTargetMounted, targetRef, isScrollWrapperMounted, scrollWrapperRef, options]);
 
-   const observeTarget = () => {
+   const observeTarget = useCallback(() => {
       if (!observerRef.current || !targetRef.current) return;
 
       observerRef.current.unobserve(targetRef.current);
       observerRef.current.observe(targetRef.current);
-   };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [observerRef, targetRef, isTargetMounted]);
 
    return {
       target,

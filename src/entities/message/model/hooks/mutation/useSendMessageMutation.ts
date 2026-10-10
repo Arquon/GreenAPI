@@ -24,11 +24,9 @@ export function useSendMessageMutation() {
       onMutate: async ({ chatId, message }) => {
          await queryClient.cancelQueries({ queryKey: chatInfinityMessagesQueryKey(chatId) });
 
-         const previousData = queryClient.getQueryData<InfiniteData<MessagesQueryPage, number>>([
-            "chat",
-            chatId,
-            "messages",
-         ]);
+         const previousData = queryClient.getQueryData<InfiniteData<MessagesQueryPage, number>>(
+            chatInfinityMessagesQueryKey(chatId)
+         );
 
          const tempId = uuidv4();
 

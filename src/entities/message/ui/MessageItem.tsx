@@ -17,5 +17,5 @@ export const MessageItem = ({ message }: MessageItemProps) => {
       .filter(Boolean)
       .join(" ");
 
-   return <div className={className}>{message.textMessage + " " + message.idMessage}</div>;
+   return <div className={className}>{message.textMessage}</div>;
 };

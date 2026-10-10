@@ -1,4 +1,4 @@
-import { ChatMessagesList, ChatMessageBox, ChatHeader } from "@/entities/chat";
+import { ChatMessagesList, ChatHeader } from "@/entities/chat";
 import { useCurrentChatQuery } from "@/entities/chat/model/hooks/useCurrentChatQuery";
 import { useNotification } from "@/entities/notification";
 import { ApiKeysRequired } from "@/features/manage-api-keys";
@@ -30,7 +30,6 @@ export const ChatPageComponent = ({ chatId }: ChatComponentProps) => {
             <>
                <ChatHeader query={contactQuery} />
                <ChatMessagesList chatId={chatId} query={messagesQuery} />
-               <ChatMessageBox chatId={chatId} />
             </>
          )}
       </div>

@@ -9,8 +9,6 @@ interface BaseInputOwnProps {
 export type BaseInputProps = Omit<CustomComponentProps<"input", BaseInputOwnProps>, "type" | "className">;
 
 export const BaseInput = ({ onChange: onChangeProps, ...restProps }: BaseInputProps) => {
-   console.log({ onChangeProps });
-
    const onChange = (event: ChangeEvent<HTMLInputElement>) => {
       onChangeProps(event.target.value);
    };
