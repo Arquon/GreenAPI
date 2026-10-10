@@ -7,7 +7,7 @@ import {
    chatInfinityMessagesQueryKey,
    pushNewMessageToInfinityCache,
    updateMessageInInfinityCache,
-} from "../../helpers/query-helpers";
+} from "../../helpers/query";
 
 interface SendMessageParams {
    chatId: string;

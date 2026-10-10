@@ -1,32 +1,64 @@
-import { useEffect, useEffectEvent, type RefObject } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
+import { useRefWithMountedFlag } from "./useRefWithMountedFlag";
 
-interface ExtendedIntersectionObserverInit extends Omit<IntersectionObserverInit, "root"> {
-   root?: RefObject<HTMLElement | null>;
-}
-
-interface useIntersectionObserverQueryParams {
-   targetRef: RefObject<HTMLElement | null>;
-   options?: ExtendedIntersectionObserverInit;
+interface useIntersectionObserverQueryParams extends Omit<IntersectionObserverInit, "root"> {
    cb: () => void;
 }
 
-export function useIntersectionObserver({ options, targetRef, cb }: useIntersectionObserverQueryParams) {
-   const stableCb = useEffectEvent(cb);
+export function useIntersectionObserver({
+   rootMargin,
+   scrollMargin,
+   threshold,
+   cb,
+}: useIntersectionObserverQueryParams) {
+   const target = useRefWithMountedFlag();
+   const { isElementMounted: isTargetMounted, elementRef: targetRef } = target;
+   const container = useRefWithMountedFlag();
+   const scrollWrapper = useRefWithMountedFlag();
+   const { isElementMounted: isScrollWrapperMounted, elementRef: scrollWrapperRef } = scrollWrapper;
+
+   const optionsRef = useRef({ rootMargin, scrollMargin, threshold });
+   const observerRef = useRef<IntersectionObserver>(null);
+
+   const cbRef = useRef(cb);
+
+   useLayoutEffect(() => {
+      cbRef.current = cb;
+   }, [cb]);
 
    useEffect(() => {
-      if (!targetRef.current) return;
+      if (!targetRef.current || !scrollWrapperRef.current) return;
+
+      if (observerRef.current) {
+         observerRef.current.disconnect();
+         observerRef.current = null;
+      }
 
       const observer = new IntersectionObserver(
          ([entity]) => {
-            if (entity.isIntersecting) stableCb();
+            if (entity.isIntersecting) {
+               cbRef.current();
+            }
          },
-         { ...options, root: options?.root?.current }
+         { ...optionsRef.current, root: scrollWrapperRef.current }
       );
 
-      observer.observe(targetRef.current);
+      observerRef.current = observer;
 
-      return () => observer.disconnect();
-   }, [options, targetRef]);
+      return () => observerRef.current?.disconnect();
+   }, [isTargetMounted, targetRef, isScrollWrapperMounted, scrollWrapperRef]);
 
-   return;
+   const observeTarget = () => {
+      if (!observerRef.current || !targetRef.current) return;
+
+      observerRef.current.unobserve(targetRef.current);
+      observerRef.current.observe(targetRef.current);
+   };
+
+   return {
+      target,
+      container,
+      scrollWrapper,
+      observeTarget,
+   };
 }

@@ -1,7 +1,8 @@
 import { apiKeysLocalStorageKey, useApiKeysSlice } from "@/shared/model/apiKeys";
-import { BaseInput, Button } from "@/shared/ui";
+import { BaseInput, Button, InputError } from "@/shared/ui";
 import { Modal } from "@/shared/ui/modal";
 import { useState, type SubmitEvent } from "react";
+import { validateApiKeys } from "../model/validation";
 
 interface ApiKeysModalProps {
    closeFn: () => void;
@@ -22,10 +23,12 @@ export const ApiKeysModal = ({ closeFn }: ApiKeysModalProps) => {
    const onSubmit = (event: SubmitEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-      const idInstanceErrorValidate = idInstance ? null : "Введите idInstance";
-      setIdInstanceError(idInstanceErrorValidate);
+      const {
+         apiTokenInstanceError: apiTokenInstanceErrorValidate,
+         idInstanceError: idInstanceErrorValidate,
+      } = validateApiKeys({ apiTokenInstance, idInstance });
 
-      const apiTokenInstanceErrorValidate = apiTokenInstance ? null : "Введите apiTokenInstance";
+      setIdInstanceError(idInstanceErrorValidate);
       setApiTokenInstanceError(apiTokenInstanceErrorValidate);
 
       const isError = idInstanceErrorValidate || apiTokenInstanceErrorValidate;
@@ -38,8 +41,6 @@ export const ApiKeysModal = ({ closeFn }: ApiKeysModalProps) => {
       setApiKeys(apiKeys);
       closeFn();
    };
-
-   // TO DO create InputWithError
 
    return (
       <Modal.Provider closeFn={closeFn}>
@@ -57,8 +58,9 @@ export const ApiKeysModal = ({ closeFn }: ApiKeysModalProps) => {
                               setIdInstanceError(null);
                            }}
                         />
-                        {idInstanceError && <p className="text-error text-sm">{idInstanceError}</p>}
+                        <InputError error={idInstanceError} />
                      </div>
+
                      <div className="flex flex-col gap-2">
                         <BaseInput
                            placeholder="apiTokenInstance"
@@ -68,16 +70,16 @@ export const ApiKeysModal = ({ closeFn }: ApiKeysModalProps) => {
                               setApiTokenInstanceError(null);
                            }}
                         />
-                        {apiTokenInstanceError && (
-                           <p className="text-error text-sm">{apiTokenInstanceError}</p>
-                        )}
+                        <InputError error={apiTokenInstanceError} />
                      </div>
+
                      <div>
                         <label className="flex gap-2">
                            Запомнить ключи
                            <input type="checkbox" checked={saveKeys} onChange={toggleSaveCheckBox} />
                         </label>
                      </div>
+
                      <div className="self-center">
                         <Button size="default" type="submit">
                            Применить

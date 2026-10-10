@@ -1,31 +1,38 @@
-import { ChatHeader, ChatMessagesList, ChatMessageBox } from "@/entities/chat";
+import { ChatMessagesList, ChatMessageBox, ChatHeader } from "@/entities/chat";
+import { useCurrentChatQuery } from "@/entities/chat/model/hooks/useCurrentChatQuery";
+import { useNotification } from "@/entities/notification";
 import { ApiKeysRequired } from "@/features/manage-api-keys";
 import { appRoutes } from "@/shared/config";
 import { Loader } from "@/shared/ui";
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
+import { toast } from "sonner";
 import { Navigate, useNavigate, useParams } from "react-router";
 
 interface ChatComponentProps {
    chatId: string;
 }
 
-export const ChatComponent = ({ chatId }: ChatComponentProps) => {
-   // TODO useSuspenseQuery
-   // const { isPending, isSuccess } = useCurrentChatQuery({ chatId });
+export const ChatPageComponent = ({ chatId }: ChatComponentProps) => {
+   const [contactQuery, messagesQuery] = useCurrentChatQuery({ chatId });
+
+   useNotification();
+
+   const isPending = contactQuery.isPending || messagesQuery.isPending;
 
    return (
       <div className="grow flex flex-col relative">
-         <Suspense
-            fallback={
-               <div className="flex h-full justify-center items-center">
-                  <Loader size="large" />
-               </div>
-            }
-         >
-            <ChatHeader chatId={chatId} />
-            <ChatMessagesList chatId={chatId} />
-            <ChatMessageBox chatId={chatId} />
-         </Suspense>
+         {isPending && (
+            <div className="flex h-full items-center justify-center">
+               <Loader size="large" />
+            </div>
+         )}
+         {!isPending && (
+            <>
+               <ChatHeader query={contactQuery} />
+               <ChatMessagesList chatId={chatId} query={messagesQuery} />
+               <ChatMessageBox chatId={chatId} />
+            </>
+         )}
       </div>
    );
 };
@@ -39,7 +46,7 @@ export const ChatPage = ({}: ChatPageProps) => {
 
    useEffect(() => {
       if (!chatId) {
-         alert("chatId must be provided");
+         toast.error("Чат не указан");
          navigate(appRoutes.mainPage);
       }
    }, [chatId, navigate]);
@@ -48,7 +55,7 @@ export const ChatPage = ({}: ChatPageProps) => {
 
    return (
       <ApiKeysRequired fallBack={<Navigate to={appRoutes.mainPage} />}>
-         <ChatComponent chatId={chatId} />
+         <ChatPageComponent chatId={chatId} />
       </ApiKeysRequired>
    );
 };

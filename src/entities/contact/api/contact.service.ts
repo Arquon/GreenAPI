@@ -1,4 +1,5 @@
 import { httpService, type DefaultRequestParams } from "@/shared/api";
+import type { Contact } from "../model/types";
 
 const endPoints = {
    getChatContactInfo: ({ apiTokenInstance, idInstance }: DefaultRequestParams) =>
@@ -11,11 +12,23 @@ interface GetContactInfoParams extends DefaultRequestParams {
 
 export const contactService = {
    getContactInfo: async ({ apiTokenInstance, idInstance, chatId }: GetContactInfoParams) => {
-      return { name: "Test" };
+      const mockContact: Contact = {
+         avatar: "",
+         name: "name",
+         contactName: "contactName",
+         chatId,
+         chatType: "user",
+         lastSeen: 0,
+         phoneNumber: 0,
+         username: "",
+         isPremium: false,
+         isVerified: false,
+         isScam: false,
+         description: "",
+      };
+      return mockContact;
 
-      // TO DO типиировать response
-
-      const response = await httpService.post(
+      const response = await httpService.post<Contact>(
          endPoints.getChatContactInfo({ apiTokenInstance, idInstance }),
          {
             chatId,

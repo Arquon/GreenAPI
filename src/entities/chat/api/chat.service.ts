@@ -32,9 +32,8 @@ export const chatService = {
       return response.data;
    },
    getChatAvatarUrl: async ({ apiTokenInstance, idInstance, chatId }: GetChatAvatarParams) => {
-      // TO DO
-
-      return { urlAvatar: undefined };
+      const mockData = { urlAvatar: undefined };
+      return mockData;
 
       const response = await httpService.post<{ urlAvatar: string }>(
          endPoints.getChatAvatarUrl({ apiTokenInstance, idInstance }),

@@ -1,4 +1,4 @@
-import type { Message, MessagesQueryPage } from "../../model/types";
+import type { Message, MessagesQueryPage } from "../types";
 import type { InfiniteData, QueryClient } from "@tanstack/react-query";
 
 export const chatInfinityMessagesQueryKey = (chatId: string) => ["chat", chatId, "messages"];

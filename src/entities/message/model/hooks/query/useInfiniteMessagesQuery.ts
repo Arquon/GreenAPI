@@ -1,12 +1,12 @@
-import { useSuspenseInfiniteQuery, type InfiniteData } from "@tanstack/react-query";
+import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query";
 import { messagesService, type GetChatMessagesParams } from "../../../api/messages.service";
 import { useApiKeys } from "@/shared/model/apiKeys";
 import { useCallback } from "react";
 import type { Message } from "../../types";
 import axios from "axios";
-import { chatInfinityMessagesQueryKey } from "../../helpers/query-helpers";
+import { chatInfinityMessagesQueryKey } from "../../helpers/query";
 
-interface useInfinityChatMessagesQueryQueryParams {
+interface useInfiniteChatMessagesQueryQueryParams {
    chatId: string;
 }
 
@@ -19,7 +19,7 @@ const fetchInfiniteMessage = async (args: Required<GetChatMessagesParams>) => {
    };
 };
 
-export function useInfinityChatMessagesQuery({ chatId }: useInfinityChatMessagesQueryQueryParams) {
+export function useInfiniteMessagesQuery({ chatId }: useInfiniteChatMessagesQueryQueryParams) {
    const apiKeys = useApiKeys();
 
    const selectFn = useCallback(
@@ -38,7 +38,7 @@ export function useInfinityChatMessagesQuery({ chatId }: useInfinityChatMessages
       []
    );
 
-   return useSuspenseInfiniteQuery({
+   return useInfiniteQuery({
       queryKey: chatInfinityMessagesQueryKey(chatId),
       queryFn: ({ pageParam: count }) => fetchInfiniteMessage({ chatId, count, ...apiKeys }),
       initialPageParam: 20,

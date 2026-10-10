@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import type { ElementType } from "react";
 
 const buttonVariants = cva(
-   "flex items-center justify-center cursor-pointer bg-accent hover:bg-accent-light transition-bg duration-100 disabled:bg-disabled",
+   "flex items-center justify-center cursor-pointer  transition-bg duration-100 disabled:bg-disabled",
    {
       variants: {
          size: {
@@ -11,13 +11,21 @@ const buttonVariants = cva(
             default: "rounded-lg px-5 py-3",
             icon: "rounded-[14px] w-8 h-8",
          },
+         color: {
+            default: "bg-accent hover:bg-accent-light",
+            error: "bg-error",
+         },
+      },
+      defaultVariants: {
+         color: "default",
+         size: "default",
       },
    }
 );
 
 type ButtonOwnProps<E extends ElementType> = {
    as?: E;
-} & Required<VariantProps<typeof buttonVariants>>;
+} & VariantProps<typeof buttonVariants>;
 
 const defaultTagType = "button";
 
@@ -26,11 +34,12 @@ export type ButtonProps<E extends ElementType> = CustomComponentProps<E, ButtonO
 export const Button = <E extends ElementType = typeof defaultTagType>({
    as,
    size,
+   color,
    ...restProps
 }: ButtonProps<E>) => {
    const Tag = as || defaultTagType;
 
-   const className = buttonVariants({ size });
+   const className = buttonVariants({ size, color });
 
    return <Tag {...restProps} className={className} />;
 };

@@ -3,9 +3,10 @@ import type { ChangeEvent } from "react";
 
 interface BaseInputOwnProps {
    onChange: (value: string) => void;
+   value: string;
 }
 
-type BaseInputProps = Omit<CustomComponentProps<"input", BaseInputOwnProps>, "type" | "classname">;
+export type BaseInputProps = Omit<CustomComponentProps<"input", BaseInputOwnProps>, "type" | "className">;
 
 export const BaseInput = ({ onChange: onChangeProps, ...restProps }: BaseInputProps) => {
    console.log({ onChangeProps });

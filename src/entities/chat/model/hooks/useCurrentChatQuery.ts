@@ -1,26 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import { chatService } from "../../api/chat.service";
-import { useApiKeys } from "@/shared/model/apiKeys";
-import { useCallback } from "react";
-import type { Chat } from "../types";
+import { useContactInfoQuery } from "@/entities/contact/@x/chat";
+import { useInfiniteChatMessagesQuery } from "@/entities/message/@x/chat";
 
 interface useCurrentChatQueryQueryParams {
    chatId: string;
 }
 
 export function useCurrentChatQuery({ chatId }: useCurrentChatQueryQueryParams) {
-   const { apiTokenInstance, idInstance } = useApiKeys();
+   const contactQuery = useContactInfoQuery({ chatId });
 
-   const selectFn = useCallback(
-      (chatsList: Chat[]) => {
-         return chatsList.find((chat) => chat.chatId === chatId);
-      },
-      [chatId]
-   );
+   const messagesQuery = useInfiniteChatMessagesQuery({ chatId });
 
-   return useQuery({
-      queryKey: ["chats"],
-      queryFn: () => chatService.getChatsList({ idInstance, apiTokenInstance }),
-      select: selectFn,
-   });
+   return [contactQuery, messagesQuery] as const;
 }

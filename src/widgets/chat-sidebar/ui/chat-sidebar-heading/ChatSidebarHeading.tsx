@@ -11,7 +11,9 @@ export const ChatSidebarHeading = ({ openPhoneNumberModal }: ChatSidebarHeadingP
       <div className="flex justify-between px-4 pt-3 pb-2">
          <h2 className="text-2xl font-medium">Чаты</h2>
          <div className="flex gap-2">
-            <ClearApiKeysButton size="small">Выйти</ClearApiKeysButton>
+            <ClearApiKeysButton size="small" color="error">
+               Выйти
+            </ClearApiKeysButton>
             <Button onClick={openPhoneNumberModal} size="icon">
                <PlusIcon className="w-5 h-5 fill-white" />
             </Button>

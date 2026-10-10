@@ -1,10 +1,11 @@
-import { BaseInput, Button } from "@/shared/ui";
+import { Button, PhoneNumberInput } from "@/shared/ui";
 import { Modal } from "@/shared/ui/modal";
 import { useState, type SubmitEvent } from "react";
 import { useCheckChatByPhoneMutation } from "../model/useCheckChatByPhoneMutation";
 import axios from "axios";
 import { generatePath, useNavigate } from "react-router";
 import { appRoutes } from "@/shared/config";
+import { toast } from "sonner";
 
 interface ChatPhoneNumberModalProps {
    closeFn: () => void;
@@ -26,18 +27,18 @@ export const ChatPhoneNumberModal = ({ closeFn }: ChatPhoneNumberModalProps) => 
                return;
             }
 
-            alert("Пользователь не найден");
+            toast.error("Пользователь не найден");
             return;
          },
          onError: (error) => {
             if (axios.isAxiosError(error)) {
                if (error.status === 429) {
-                  alert("Попробуйте позже"); // TO DO
+                  toast.error("Попробуйте позже");
                   return;
                }
             }
 
-            alert("Произошла ошибка при создании чата");
+            toast.error("Произошла ошибка при создании чата");
             return;
          },
       });
@@ -50,7 +51,7 @@ export const ChatPhoneNumberModal = ({ closeFn }: ChatPhoneNumberModalProps) => 
                <form onSubmit={onSubmit}>
                   <h3 className="mb-5">Введите номер телефона</h3>
                   <div className="mb-4">
-                     <BaseInput
+                     <PhoneNumberInput
                         value={phoneNumber}
                         onChange={setPhoneNumber}
                         placeholder="Номер телефона в международном формате"

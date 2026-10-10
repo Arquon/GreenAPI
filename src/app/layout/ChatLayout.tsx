@@ -1,4 +1,3 @@
-import { useNotification } from "@/entities/notification";
 import { ApiKeysModal } from "@/features/manage-api-keys";
 import { useApiKeysSlice } from "@/shared/model/apiKeys";
 import { apiKeysSelectors } from "@/shared/model/apiKeys/selectors";
@@ -20,11 +19,9 @@ export const ChatLayout = ({}: ChatLayoutProps) => {
       setIsApiKeysOpen(false);
    };
 
-   useNotification({});
-
    return (
       <div className="flex h-screen">
-         {/* <ChatSidebar openApiKeysModal={openApiKeysModal} /> */}
+         <ChatSidebar openApiKeysModal={openApiKeysModal} />
          <Outlet />
          {isApiKeysOpen && <ApiKeysModal closeFn={closeApiKeysModal} />}
       </div>

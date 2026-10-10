@@ -1,19 +1,17 @@
 import { Avatar } from "@/shared/ui";
-import { useChatAvatarQuery } from "../model/hooks/useChatAvatarQuery";
 import { ArrowIcon } from "@/shared/assets";
 import { Link } from "react-router";
 import { appRoutes } from "@/shared/config";
-import { useContactInfoQuery } from "@/entities/contact/@x/chat";
+import type { UseQueryResult } from "@tanstack/react-query";
+import type { Contact } from "@/entities/contact/@x/chat";
 
 interface ChatHeaderProps {
-   chatId: string;
+   query: UseQueryResult<Contact, Error>;
 }
-
-export const ChatHeader = ({ chatId }: ChatHeaderProps) => {
-   const { data } = useContactInfoQuery({ chatId });
-   const { data: avatarData } = useChatAvatarQuery({ chatId });
-
+export const ChatHeader = ({ query }: ChatHeaderProps) => {
    const className = "flex items-center px-4 py-3 bg-sidebar gap-2 border-b border-sidebar-light";
+
+   const { isError, error, isSuccess, data } = query;
 
    const returnArrow = (
       <Link
@@ -28,10 +26,14 @@ export const ChatHeader = ({ chatId }: ChatHeaderProps) => {
       <div className={className}>
          {returnArrow}
 
-         <div className="flex gap-3">
-            <Avatar name={data.name} url={avatarData?.urlAvatar} />
-            <div>{data.name}</div>
-         </div>
+         {isError && <p>`Произошла ошибка при загрузке информации чата ${error.message}`</p>}
+
+         {isSuccess && (
+            <div className="flex gap-3">
+               <Avatar name={data.name} url={data.avatar} />
+               <div>{data.name}</div>
+            </div>
+         )}
       </div>
    );
 };

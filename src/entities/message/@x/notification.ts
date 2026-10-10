@@ -3,6 +3,13 @@ export {
    updateMessageInInfinityCache,
    chatInfinityMessagesQueryKey,
    chatCountMessagesQueryKey,
-} from "../model/helpers/query-helpers";
+} from "../model/helpers/query";
 
-export { type IncomingMessage, type OutgoingMessage, type MessagesQueryPage } from "../model/types";
+export {
+   type IncomingMessage,
+   type OutgoingMessage,
+   type BaseMessage,
+   type Message,
+   type SenderType,
+   type MessagesQueryPage,
+} from "../model/types";

@@ -2,14 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { messagesService } from "../../../api/messages.service";
 import { useApiKeys } from "@/shared/model/apiKeys";
 import axios from "axios";
-import { chatCountMessagesQueryKey } from "../../helpers/query-helpers";
+import { chatCountMessagesQueryKey } from "../../helpers/query";
 
-interface useChatMessagesQueryQueryParams {
+interface UseMessagesQueryQueryParams {
    chatId: string;
    count?: number;
 }
 
-export function useChatMessagesQuery({ chatId, count = 100 }: useChatMessagesQueryQueryParams) {
+export function useMessagesQuery({ chatId, count = 100 }: UseMessagesQueryQueryParams) {
    const { apiTokenInstance, idInstance } = useApiKeys();
 
    return useQuery({
