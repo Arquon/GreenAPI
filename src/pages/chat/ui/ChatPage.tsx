@@ -1,5 +1,5 @@
 import { ChatMessagesList, ChatHeader } from "@/entities/chat";
-import { useCurrentChatQuery } from "@/entities/chat/model/hooks/useCurrentChatQuery";
+import { useCurrentChatQuery } from "@/entities/chat";
 import { useNotification } from "@/entities/notification";
 import { ApiKeysRequired } from "@/features/manage-api-keys";
 import { appRoutes } from "@/shared/config";

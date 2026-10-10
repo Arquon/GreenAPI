@@ -44,7 +44,7 @@ export function useInfiniteMessagesQuery({ chatId }: useInfiniteChatMessagesQuer
       initialPageParam: 20,
       getNextPageParam: (lastMessage) => lastMessage.nextCount,
       select: selectFn,
-      retry: Infinity,
+      retry: 5,
       retryDelay(failureCount, error) {
          if (axios.isAxiosError(error)) {
             if (error.status === 429) return 1500;

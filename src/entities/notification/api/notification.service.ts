@@ -1,5 +1,5 @@
 import { httpService, type DefaultRequestParams } from "@/shared/api";
-import type { NotificationDTO } from "../model/types";
+import type { Notification } from "../model/types";
 
 const endPoints = {
    receiveNotifications: ({ apiTokenInstance, idInstance }: DefaultRequestParams) =>
@@ -11,10 +11,9 @@ const endPoints = {
 interface ReceiveNotificationsParams extends DefaultRequestParams {
    receiveTimeout?: number;
 }
-
 interface ReceiveNotificationsResponse {
    receiptId: string;
-   body: NotificationDTO;
+   body: Notification;
 }
 
 interface DeleteNotificationsParams extends DefaultRequestParams {

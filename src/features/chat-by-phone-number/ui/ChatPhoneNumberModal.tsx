@@ -38,7 +38,7 @@ export const ChatPhoneNumberModal = ({ closeFn }: ChatPhoneNumberModalProps) => 
                }
             }
 
-            toast.error("Произошла ошибка при создании чата");
+            toast.error("Произошла ошибка при открытии чата");
             return;
          },
       });
@@ -59,7 +59,7 @@ export const ChatPhoneNumberModal = ({ closeFn }: ChatPhoneNumberModalProps) => 
                   </div>
                   <div className="flex justify-center">
                      <Button size="default" type="submit">
-                        Создать чат
+                        Открыть чат
                      </Button>
                   </div>
                </form>

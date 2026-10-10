@@ -1,5 +1,5 @@
-import { useChatsListQuery } from "@/entities/chat/model/hooks/useChatsListQuery";
-import { ChatListItem } from "@/entities/chat/ui/ChatListItem";
+import { useChatsListQuery } from "@/entities/chat";
+import { ChatListItem } from "@/entities/chat";
 import { Loader } from "@/shared/ui/loader/Loader";
 
 interface ChatsListProps {
@@ -9,7 +9,7 @@ interface ChatsListProps {
 export const ChatsList = ({ searchString }: ChatsListProps) => {
    const { isPending, data: chatsList, isError, error } = useChatsListQuery({ searchString });
 
-   if (isPending) return <Loader />;
+   if (isPending) return <Loader size="medium" />;
 
    if (isError) return <p>Ошибка при загрузке чатов {error.message}</p>;
 

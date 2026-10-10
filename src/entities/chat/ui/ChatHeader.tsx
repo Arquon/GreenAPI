@@ -11,7 +11,7 @@ interface ChatHeaderProps {
 export const ChatHeader = ({ query }: ChatHeaderProps) => {
    const className = "flex items-center px-4 py-3 bg-sidebar gap-2 border-b border-sidebar-light";
 
-   const { isError, error, isSuccess, data } = query;
+   const { isSuccess, data } = query;
 
    const returnArrow = (
       <Link
@@ -25,8 +25,6 @@ export const ChatHeader = ({ query }: ChatHeaderProps) => {
    return (
       <div className={className}>
          {returnArrow}
-
-         {isError && <p>`Произошла ошибка при загрузке информации чата ${error.message}`</p>}
 
          {isSuccess && (
             <div className="flex gap-3">

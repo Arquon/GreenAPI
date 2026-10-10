@@ -18,15 +18,15 @@ type ModalProps = {
 } & Required<VariantProps<typeof modalVariants>>;
 
 export const Modal = ({ children, variant }: ModalProps) => {
-   const { closeFn: closeFnContext, modalsCount } = useModal();
+   const { closeFn: closeFnContext } = useModal();
 
    useLayoutEffect(() => {
       document.body.classList.add("overflow-hidden");
 
       return () => {
-         if (modalsCount === 0) document.body.classList.remove("overflow-hidden");
+         document.body.classList.remove("overflow-hidden");
       };
-   }, [modalsCount]);
+   }, []);
 
    const closeFn = (event: MouseEvent<HTMLDivElement>) => {
       if (event.target === event.currentTarget) {

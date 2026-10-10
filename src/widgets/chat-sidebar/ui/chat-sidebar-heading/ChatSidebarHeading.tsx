@@ -1,4 +1,4 @@
-import { ClearApiKeysButton } from "@/features/manage-api-keys/ui/ClearApiKeysButton";
+import { ClearApiKeysButton } from "@/features/manage-api-keys";
 import { PlusIcon } from "@/shared/assets";
 import { Button } from "@/shared/ui/button/Button";
 
