@@ -3,20 +3,20 @@ import {
    pushNewMessageToInfinityCache,
    updateMessageInInfinityCache,
    type Message,
-} from "@/entities/message/@x/notification";
+} from "@/entities/message";
 import { parseNotificationToMessage } from "./to-message-parser";
-import type { Notification } from "../types";
+import type { Notification } from "@/entities/notification";
 import type { QueryClient } from "@tanstack/react-query";
 
-interface ProceedTextMessageNotificationParams {
+interface ProcessTextMessageNotificationParams {
    notification: Notification;
    queryClient: QueryClient;
 }
 
-export function proceedTextMessageNotification({
+export function processTextMessageNotification({
    notification,
    queryClient,
-}: ProceedTextMessageNotificationParams) {
+}: ProcessTextMessageNotificationParams) {
    const messageObject = parseNotificationToMessage(notification);
    const {
       senderData: { chatId },

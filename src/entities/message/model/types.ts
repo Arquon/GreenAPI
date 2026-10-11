@@ -43,3 +43,16 @@ export interface MessagesQueryPage {
    messages: Message[];
    nextCount: number | null;
 }
+
+interface BaseMessageData {
+   typeMessage: string;
+}
+
+export interface TextMessageData extends BaseMessageData {
+   typeMessage: "textMessage";
+   textMessageData: {
+      textMessage: string;
+   };
+}
+
+export type MessageData = TextMessageData;

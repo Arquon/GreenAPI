@@ -1,9 +1,9 @@
-import { Avatar } from "@/shared/ui";
 import { ArrowIcon } from "@/shared/assets";
 import { Link } from "react-router";
 import { appRoutes } from "@/shared/config";
 import type { UseQueryResult } from "@tanstack/react-query";
-import type { Contact } from "@/entities/contact/@x/chat";
+import type { Contact } from "@/entities/contact";
+import { ContactInfo } from "@/entities/contact";
 
 interface ChatHeaderProps {
    query: UseQueryResult<Contact, Error>;
@@ -26,12 +26,7 @@ export const ChatHeader = ({ query }: ChatHeaderProps) => {
       <div className={className}>
          {returnArrow}
 
-         {isSuccess && (
-            <div className="flex gap-3">
-               <Avatar name={data.name} url={data.avatar} />
-               <div>{data.name}</div>
-            </div>
-         )}
+         {isSuccess && <ContactInfo contact={data} />}
       </div>
    );
 };

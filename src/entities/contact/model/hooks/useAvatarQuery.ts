@@ -1,17 +1,17 @@
 import { useApiKeys } from "@/shared/model/apiKeys";
 import { useQuery } from "@tanstack/react-query";
-import { chatService } from "../../api/chat.service";
+import { contactService } from "../../api/contact.service";
 
-interface useChatAvatarQueryQueryParams {
+interface UseAvatarQueryQueryParams {
    chatId: string;
 }
 
-export function useChatAvatarQuery({ chatId }: useChatAvatarQueryQueryParams) {
+export function useAvatarQuery({ chatId }: UseAvatarQueryQueryParams) {
    const apiKeys = useApiKeys();
 
    return useQuery({
       queryKey: ["chats", chatId, "avatar"],
-      queryFn: () => chatService.getChatAvatarUrl({ chatId, ...apiKeys }),
+      queryFn: () => contactService.getAvatarUrl({ chatId, ...apiKeys }),
       retry: 0,
       staleTime: Infinity,
    });

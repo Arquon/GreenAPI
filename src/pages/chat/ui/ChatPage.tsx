@@ -1,18 +1,19 @@
-import { ChatMessagesList, ChatHeader } from "@/entities/chat";
-import { useCurrentChatQuery } from "@/entities/chat";
-import { useNotification } from "@/entities/notification";
 import { ApiKeysRequired } from "@/features/manage-api-keys";
 import { appRoutes } from "@/shared/config";
 import { Loader } from "@/shared/ui";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { Navigate, useNavigate, useParams } from "react-router";
+import { ChatHeader } from "@/widgets/chat/heading";
+import { ChatMessagesList } from "@/widgets/chat/messages-list";
+import { useCurrentChatQuery } from "../model/hooks/useCurrentChatQuery";
+import { useNotification } from "@/features/process-notification";
 
 interface ChatComponentProps {
    chatId: string;
 }
 
-export const ChatPageComponent = ({ chatId }: ChatComponentProps) => {
+const ChatPageComponent = ({ chatId }: ChatComponentProps) => {
    const [contactQuery, messagesQuery] = useCurrentChatQuery({ chatId });
 
    useNotification();

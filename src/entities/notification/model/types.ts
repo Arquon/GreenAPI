@@ -1,5 +1,5 @@
 import type { ChatType } from "@/entities/chat/@x/notification";
-import type { SenderType } from "@/entities/message/@x/notification";
+import type { SenderType, MessageData } from "@/entities/message/@x/notification";
 
 interface SenderData {
    chatId: string;
@@ -11,19 +11,6 @@ interface SenderData {
    senderContactName: string;
    senderPhoneNumber: number;
 }
-
-interface BaseMessageData {
-   typeMessage: string;
-}
-
-interface TextMessageData extends BaseMessageData {
-   typeMessage: "textMessage";
-   textMessageData: {
-      textMessage: string;
-   };
-}
-
-type MessageData = TextMessageData;
 
 type TypeWebhook = "incomingMessageReceived" | "outgoingAPIMessageReceived";
 type TypeInstance = "telegram";

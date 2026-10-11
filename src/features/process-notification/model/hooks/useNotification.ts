@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { notificationService } from "../../api/notification.service";
+import { notificationService } from "@/entities/notification";
 import { useApiKeys } from "@/shared/model/apiKeys";
-import { proceedTextMessageNotification } from "../helpers/query";
+import { processTextMessageNotification } from "../helpers/query";
 
 export function useNotification() {
    const apiKeys = useApiKeys();
@@ -17,11 +17,15 @@ export function useNotification() {
 
          switch (messageData.typeMessage) {
             case "textMessage": {
-               proceedTextMessageNotification({ notification: notificationResponse.body, queryClient });
+               processTextMessageNotification({ notification: notificationResponse.body, queryClient });
+               break;
             }
          }
 
-         notificationService.deleteNotification({ ...apiKeys, receiptId: +notificationResponse.receiptId });
+         await notificationService.deleteNotification({
+            ...apiKeys,
+            receiptId: +notificationResponse.receiptId,
+         });
 
          return true;
       },

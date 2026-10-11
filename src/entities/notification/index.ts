@@ -1,1 +1,3 @@
-export { useNotification } from "./model/hooks/useNotification";
+export { type Notification } from "./model/types";
+
+export { notificationService } from "./api/notification.service";

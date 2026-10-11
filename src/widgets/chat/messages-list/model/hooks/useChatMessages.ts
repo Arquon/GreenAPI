@@ -1,4 +1,4 @@
-import type { Message } from "@/entities/message/@x/chat";
+import type { Message } from "@/entities/message";
 import { useIntersectionObserver } from "@/shared/lib";
 import type { UseInfiniteQueryResult } from "@tanstack/react-query";
 import { useRef, useLayoutEffect, useEffect } from "react";

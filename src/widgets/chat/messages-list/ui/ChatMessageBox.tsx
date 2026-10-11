@@ -1,4 +1,4 @@
-import { useSendMessageMutation } from "@/entities/message/@x/chat";
+import { useSendMessageMutation } from "@/entities/message";
 import { ArrowIcon } from "@/shared/assets";
 import { BaseTextarea, Button } from "@/shared/ui";
 import { useState, type KeyboardEvent } from "react";

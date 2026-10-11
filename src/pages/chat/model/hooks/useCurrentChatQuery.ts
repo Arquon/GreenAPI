@@ -1,5 +1,5 @@
-import { useContactInfoQuery } from "@/entities/contact/@x/chat";
-import { useInfiniteChatMessagesQuery } from "@/entities/message/@x/chat";
+import { useContactInfoQuery } from "@/entities/contact";
+import { useInfiniteMessagesQuery } from "@/entities/message";
 
 interface useCurrentChatQueryQueryParams {
    chatId: string;
@@ -8,7 +8,7 @@ interface useCurrentChatQueryQueryParams {
 export function useCurrentChatQuery({ chatId }: useCurrentChatQueryQueryParams) {
    const contactQuery = useContactInfoQuery({ chatId });
 
-   const messagesQuery = useInfiniteChatMessagesQuery({ chatId });
+   const messagesQuery = useInfiniteMessagesQuery({ chatId });
 
    return [contactQuery, messagesQuery] as const;
 }

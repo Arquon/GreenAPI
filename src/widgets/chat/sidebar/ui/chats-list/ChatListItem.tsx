@@ -1,9 +1,9 @@
-import { useChatMessagesQuery } from "@/entities/message/@x/chat";
 import { appRoutes } from "@/shared/config";
 import { Avatar } from "@/shared/ui";
 import { Loader } from "@/shared/ui";
 import { generatePath, useNavigate, useParams } from "react-router";
-import { useChatAvatarQuery } from "../model/hooks/useChatAvatarQuery";
+import { useAvatarQuery } from "@/entities/contact";
+import { useMessagesQuery } from "@/entities/message";
 
 interface ChatListItemProps {
    name: string;
@@ -24,8 +24,8 @@ export const ChatListItem = ({ name, chatId }: ChatListItemProps) => {
       isPending,
       isError,
       error,
-   } = useChatMessagesQuery({ chatId, count: 1 });
-   const { data: avatarData } = useChatAvatarQuery({ chatId });
+   } = useMessagesQuery({ chatId, count: 1 });
+   const { data: avatarData } = useAvatarQuery({ chatId });
 
    const { chatId: routeChatId } = useParams();
 

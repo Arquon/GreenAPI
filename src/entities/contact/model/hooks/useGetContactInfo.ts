@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { contactService } from "../api/contact.service";
+import { contactService } from "../../api/contact.service";
 import { useApiKeys } from "@/shared/model/apiKeys";
 
 interface useContactInfoQueryParams {

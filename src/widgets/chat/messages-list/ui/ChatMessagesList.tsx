@@ -1,7 +1,8 @@
-import { useInfiniteChatMessages, type Message, MessageItem } from "@/entities/message/@x/chat";
+import { type Message, MessageItem } from "@/entities/message";
 import { Loader } from "@/shared/ui/loader/Loader";
 import type { UseInfiniteQueryResult } from "@tanstack/react-query";
 import { ChatMessageBox } from "./ChatMessageBox";
+import { useChatMessages } from "../model/hooks/useChatMessages";
 
 interface ChatMessagesListProps {
    query: UseInfiniteQueryResult<Message[], Error>;
@@ -11,7 +12,7 @@ interface ChatMessagesListProps {
 export const ChatMessagesList = ({ chatId, query }: ChatMessagesListProps) => {
    const { isFetchingNextPage, isSuccess, data, isError, error } = query;
 
-   const { setTargetRef, setScrollWrapperRef, setContainerRef, scrollToBottom } = useInfiniteChatMessages({
+   const { setTargetRef, setScrollWrapperRef, setContainerRef, scrollToBottom } = useChatMessages({
       chatId,
       query,
    });

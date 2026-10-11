@@ -1,7 +1,7 @@
 import { ApiKeysModal } from "@/features/manage-api-keys";
 import { useApiKeysSlice } from "@/shared/model/apiKeys";
 import { apiKeysSelectors } from "@/shared/model/apiKeys/selectors";
-import { ChatSidebar } from "@/widgets/chat-sidebar";
+import { ChatSidebar } from "@/widgets/chat/sidebar";
 import { useState } from "react";
 import { Outlet } from "react-router";
 

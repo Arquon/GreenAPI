@@ -1,10 +1,5 @@
-import type {
-   BaseMessage,
-   Message,
-   IncomingMessage,
-   OutgoingMessage,
-} from "@/entities/message/@x/notification";
-import type { Notification } from "../types";
+import type { BaseMessage, Message, IncomingMessage, OutgoingMessage } from "@/entities/message";
+import type { Notification } from "@/entities/notification";
 
 export const parseNotificationToMessage = (notification: Notification): Message => {
    const baseMessage: BaseMessage = {

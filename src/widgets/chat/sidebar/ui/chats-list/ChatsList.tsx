@@ -1,6 +1,6 @@
 import { useChatsListQuery } from "@/entities/chat";
-import { ChatListItem } from "@/entities/chat";
 import { Loader } from "@/shared/ui/loader/Loader";
+import { ChatListItem } from "./ChatListItem";
 
 interface ChatsListProps {
    searchString: string;

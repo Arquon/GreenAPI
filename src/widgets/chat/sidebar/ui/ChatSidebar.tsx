@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChatSidebarHeading } from "./chat-sidebar-heading/ChatSidebarHeading";
 import { ChatsList } from "./chats-list/ChatsList";
-import { SearchChatInput } from "./search-chat-input/SearchChatInput";
+import { SearchChatInput } from "./chat-search-input/SearchChatInput";
 import { ApiKeysRequired } from "@/features/manage-api-keys";
 import { ApiKeysModalButton } from "./api-keys-modal-button/ApiKeysModalButton";
 import { ChatPhoneNumberModal } from "@/features/chat-by-phone-number";
