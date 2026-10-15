@@ -1,10 +1,10 @@
-import { httpService, type DefaultRequestParams } from "@/shared/api";
+import { httpService, type DefaultRequestParams, type DefaultURLParams } from "@/shared/api";
 import type { Message } from "../model/types";
 
 const messagesEndPoints = {
-   getChatMessages: ({ apiTokenInstance, idInstance }: DefaultRequestParams) =>
+   getChatMessages: ({ apiTokenInstance, idInstance }: DefaultURLParams) =>
       `/waInstance${idInstance}/getChatHistory/${apiTokenInstance}`,
-   sendChatMessage: ({ apiTokenInstance, idInstance }: DefaultRequestParams) =>
+   sendChatMessage: ({ apiTokenInstance, idInstance }: DefaultURLParams) =>
       `/waInstance${idInstance}/sendMessage/${apiTokenInstance}`,
 };
 
@@ -19,21 +19,33 @@ interface SendChatMessageParams extends DefaultRequestParams {
 }
 
 export const messagesService = {
-   getChatMessages: async ({ apiTokenInstance, idInstance, chatId, count }: GetChatMessagesParams) => {
+   getChatMessages: async ({
+      keys: { apiTokenInstance, idInstance },
+      chatId,
+      count,
+      signal,
+   }: GetChatMessagesParams) => {
       const response = await httpService.post<Message[]>(
          messagesEndPoints.getChatMessages({ apiTokenInstance, idInstance }),
-         { chatId, count }
+         { chatId, count },
+         { signal }
       );
 
       return response.data;
    },
-   sendChatMessage: async ({ apiTokenInstance, idInstance, chatId, message }: SendChatMessageParams) => {
+   sendChatMessage: async ({
+      keys: { apiTokenInstance, idInstance },
+      chatId,
+      message,
+      signal,
+   }: SendChatMessageParams) => {
       const response = await httpService.post<{ idMessage: string }>(
          messagesEndPoints.sendChatMessage({ apiTokenInstance, idInstance }),
          {
             chatId,
             message,
-         }
+         },
+         { signal }
       );
 
       return response.data;

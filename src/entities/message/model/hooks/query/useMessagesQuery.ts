@@ -14,7 +14,8 @@ export function useMessagesQuery({ chatId, count = 100 }: UseMessagesQueryQueryP
 
    return useQuery({
       queryKey: chatCountMessagesQueryKey({ chatId, count }),
-      queryFn: () => messagesService.getChatMessages({ chatId, count, idInstance, apiTokenInstance }),
+      queryFn: ({ signal }) =>
+         messagesService.getChatMessages({ chatId, count, keys: { idInstance, apiTokenInstance }, signal }),
       retry: 5,
       retryDelay(failureCount, error) {
          if (axios.isAxiosError(error)) {

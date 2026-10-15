@@ -1,11 +1,11 @@
-import { httpService, type DefaultRequestParams } from "@/shared/api";
+import { httpService, type DefaultRequestParams, type DefaultURLParams } from "@/shared/api";
 import type { Contact } from "../model/types";
 
 const endPoints = {
-   getContactInfo: ({ apiTokenInstance, idInstance }: DefaultRequestParams) =>
+   getContactInfo: ({ apiTokenInstance, idInstance }: DefaultURLParams) =>
       `/waInstance${idInstance}/getContactInfo/${apiTokenInstance}`,
-   getAvatarUrl: ({ apiTokenInstance, idInstance }: DefaultRequestParams) =>
-      `/waIntance${idInstance}/getAvatar/${apiTokenInstance}`,
+   getAvatarUrl: ({ apiTokenInstance, idInstance }: DefaultURLParams) =>
+      `/waInstance${idInstance}/getAvatar/${apiTokenInstance}`,
 };
 
 interface GetContactInfoParams extends DefaultRequestParams {
@@ -17,21 +17,31 @@ interface GetChatAvatarParams extends DefaultRequestParams {
 }
 
 export const contactService = {
-   getContactInfo: async ({ apiTokenInstance, idInstance, chatId }: GetContactInfoParams) => {
+   getContactInfo: async ({
+      keys: { apiTokenInstance, idInstance },
+      chatId,
+      signal,
+   }: GetContactInfoParams) => {
       const response = await httpService.post<Contact>(
          endPoints.getContactInfo({ apiTokenInstance, idInstance }),
          {
             chatId,
+         },
+         {
+            signal,
          }
       );
 
       return response.data;
    },
-   getAvatarUrl: async ({ apiTokenInstance, idInstance, chatId }: GetChatAvatarParams) => {
+   getAvatarUrl: async ({ keys: { apiTokenInstance, idInstance }, chatId, signal }: GetChatAvatarParams) => {
       const response = await httpService.post<{ urlAvatar: string }>(
          endPoints.getAvatarUrl({ apiTokenInstance, idInstance }),
          {
             chatId,
+         },
+         {
+            signal,
          }
       );
 

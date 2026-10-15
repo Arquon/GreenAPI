@@ -1,10 +1,10 @@
-import { httpService, type DefaultRequestParams } from "@/shared/api";
+import { httpService, type DefaultRequestParams, type DefaultURLParams } from "@/shared/api";
 import type { Notification } from "../model/types";
 
 const endPoints = {
-   receiveNotifications: ({ apiTokenInstance, idInstance }: DefaultRequestParams) =>
+   receiveNotifications: ({ apiTokenInstance, idInstance }: DefaultURLParams) =>
       `/waInstance${idInstance}/receiveNotification/${apiTokenInstance}`,
-   deleteNotifications: ({ apiTokenInstance, idInstance, receiptId }: DeleteNotificationsParams) =>
+   deleteNotifications: ({ apiTokenInstance, idInstance, receiptId }: DeleteNotificationsURLParams) =>
       `/waInstance${idInstance}/deleteNotification/${apiTokenInstance}/${receiptId}`,
 };
 
@@ -19,6 +19,9 @@ interface ReceiveNotificationsResponse {
 interface DeleteNotificationsParams extends DefaultRequestParams {
    receiptId: number;
 }
+interface DeleteNotificationsURLParams extends DefaultURLParams {
+   receiptId: number;
+}
 
 interface DeleteNotificationsResponse {
    result: boolean;
@@ -27,8 +30,8 @@ interface DeleteNotificationsResponse {
 
 export const notificationService = {
    receiveNotification: async ({
-      apiTokenInstance,
-      idInstance,
+      keys: { apiTokenInstance, idInstance },
+      signal,
       receiveTimeout,
    }: ReceiveNotificationsParams) => {
       const response = await httpService.get<ReceiveNotificationsResponse | null>(
@@ -37,14 +40,20 @@ export const notificationService = {
             params: {
                receiveTimeout,
             },
+            signal,
          }
       );
 
       return response.data;
    },
-   deleteNotification: async ({ apiTokenInstance, idInstance, receiptId }: DeleteNotificationsParams) => {
+   deleteNotification: async ({
+      keys: { apiTokenInstance, idInstance },
+      signal,
+      receiptId,
+   }: DeleteNotificationsParams) => {
       const response = await httpService.delete<DeleteNotificationsResponse>(
-         endPoints.deleteNotifications({ apiTokenInstance, idInstance, receiptId })
+         endPoints.deleteNotifications({ apiTokenInstance, idInstance, receiptId }),
+         { signal }
       );
 
       return response.data;

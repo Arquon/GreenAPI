@@ -1,4 +1,5 @@
 import { ApiKeysModal } from "@/features/manage-api-keys";
+import { NotificationListener } from "@/features/process-notification";
 import { useApiKeysSlice } from "@/shared/model/apiKeys";
 import { apiKeysSelectors } from "@/shared/model/apiKeys/selectors";
 import { ChatSidebar } from "@/widgets/chat/sidebar";
@@ -24,6 +25,7 @@ export const ChatLayout = ({}: ChatLayoutProps) => {
          <ChatSidebar openApiKeysModal={openApiKeysModal} />
          <Outlet />
          {isApiKeysOpen && <ApiKeysModal closeFn={closeApiKeysModal} />}
+         {apiKeysProvided && <NotificationListener />}
       </div>
    );
 };

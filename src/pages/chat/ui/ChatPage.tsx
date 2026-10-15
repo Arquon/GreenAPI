@@ -7,7 +7,6 @@ import { Navigate, useNavigate, useParams } from "react-router";
 import { ChatHeader } from "@/widgets/chat/heading";
 import { ChatMessagesList } from "@/widgets/chat/messages-list";
 import { useCurrentChatQuery } from "../model/hooks/useCurrentChatQuery";
-import { useNotification } from "@/features/process-notification";
 
 interface ChatComponentProps {
    chatId: string;
@@ -15,8 +14,6 @@ interface ChatComponentProps {
 
 const ChatPageComponent = ({ chatId }: ChatComponentProps) => {
    const [contactQuery, messagesQuery] = useCurrentChatQuery({ chatId });
-
-   useNotification();
 
    const isPending = contactQuery.isPending || messagesQuery.isPending;
 

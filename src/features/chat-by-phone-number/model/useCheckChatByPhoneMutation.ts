@@ -6,6 +6,7 @@ export function useCheckChatByPhoneMutation() {
    const apiKeys = useApiKeys();
 
    return useMutation({
-      mutationFn: (phoneNumber: number) => chatService.checkChatByPhone({ phoneNumber, ...apiKeys }),
+      mutationFn: (phoneNumber: number) =>
+         chatService.checkChatByPhone({ phoneNumber, keys: { ...apiKeys } }),
    });
 }

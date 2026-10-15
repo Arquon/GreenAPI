@@ -20,7 +20,7 @@ export function useSendMessageMutation() {
 
    return useMutation({
       mutationFn: ({ chatId, message }: SendMessageParams) =>
-         messagesService.sendChatMessage({ chatId, message, ...apiKeys }),
+         messagesService.sendChatMessage({ chatId, message, keys: { ...apiKeys } }),
       onMutate: async ({ chatId, message }) => {
          await queryClient.cancelQueries({ queryKey: chatInfinityMessagesQueryKey(chatId) });
 

@@ -11,7 +11,8 @@ export function useContactInfoQuery({ chatId }: useContactInfoQueryParams) {
 
    return useQuery({
       queryKey: ["user", chatId],
-      queryFn: () => contactService.getContactInfo({ chatId, idInstance, apiTokenInstance }),
+      queryFn: ({ signal }) =>
+         contactService.getContactInfo({ chatId, keys: { idInstance, apiTokenInstance }, signal }),
       retry: 0,
    });
 }

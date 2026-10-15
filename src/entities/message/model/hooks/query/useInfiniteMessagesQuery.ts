@@ -40,7 +40,8 @@ export function useInfiniteMessagesQuery({ chatId }: useInfiniteChatMessagesQuer
 
    return useInfiniteQuery({
       queryKey: chatInfinityMessagesQueryKey(chatId),
-      queryFn: ({ pageParam: count }) => fetchInfiniteMessage({ chatId, count, ...apiKeys }),
+      queryFn: ({ pageParam: count, signal }) =>
+         fetchInfiniteMessage({ chatId, count, keys: { ...apiKeys }, signal }),
       initialPageParam: 20,
       getNextPageParam: (lastMessage) => lastMessage.nextCount,
       select: selectFn,

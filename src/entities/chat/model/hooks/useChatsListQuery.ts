@@ -23,7 +23,7 @@ export function useChatsListQuery({ searchString }: useChatsListQueryQueryParams
 
    return useQuery({
       queryKey: ["chats"],
-      queryFn: () => chatService.getChatsList({ idInstance, apiTokenInstance }),
+      queryFn: ({ signal }) => chatService.getChatsList({ keys: { idInstance, apiTokenInstance }, signal }),
       select: selectFn,
    });
 }
